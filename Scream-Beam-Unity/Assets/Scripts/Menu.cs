@@ -19,26 +19,40 @@ public class Menu : MonoBehaviour {
 			screamOn = false;
 		}
 		
-		//Change the main menu scream to show if scream is enabled or disabled
-		if(screamOn){
-			if(!game.isPlaying){
-				mainMenu[2].GetComponent<SpriteRenderer>().color = new Color(1f,1f,1f,1f);	//enable the scream ✔️
-				mainMenu[3].GetComponent<SpriteRenderer>().color = new Color(1f,1f,1f,0f);	//disable the scream X
+		if(!game.isPlaying){
+			mainMenu[0].GetComponent<SpriteRenderer>().color = new Color(1f,1f,1f,1f);
+			mainMenu[0].GetComponent<Image>().enabled = true;
+			mainMenu[1].GetComponent<SpriteRenderer>().color = new Color(1f,1f,1f,1f);
+			mainMenu[1].GetComponent<Image>().enabled = true;
+			mainMenu[4].GetComponent<SpriteRenderer>().color = new Color(1f,1f,1f,1f);
+			mainMenu[4].GetComponent<Image>().enabled = true;
+			if(screamOn){
+				mainMenu[2].GetComponent<SpriteRenderer>().color = new Color(1f,1f,1f,1f);
+				mainMenu[2].GetComponent<Image>().enabled = true;
+				mainMenu[3].GetComponent<SpriteRenderer>().color = new Color(1f,1f,1f,0f);
+				mainMenu[3].GetComponent<Image>().enabled = false;
+			}else{
+				mainMenu[3].GetComponent<SpriteRenderer>().color = new Color(1f,1f,1f,1f);
+				mainMenu[3].GetComponent<Image>().enabled = true;
+				mainMenu[2].GetComponent<SpriteRenderer>().color = new Color(1f,1f,1f,0f);
+				mainMenu[2].GetComponent<Image>().enabled = false;
 			}
 		}else{
-			if(!game.isPlaying){
-				mainMenu[2].GetComponent<SpriteRenderer>().color = new Color(1f,1f,1f,0f);	//disable the scream ✔️
-				mainMenu[3].GetComponent<SpriteRenderer>().color = new Color(1f,1f,1f,1f);	//enable the scream X
-			}
+			mainMenu[0].GetComponent<SpriteRenderer>().color = new Color(1f,1f,1f,0f);
+			mainMenu[0].GetComponent<Image>().enabled = false;
+			mainMenu[1].GetComponent<SpriteRenderer>().color = new Color(1f,1f,1f,0f);
+			mainMenu[1].GetComponent<Image>().enabled = false;
+			mainMenu[2].GetComponent<SpriteRenderer>().color = new Color(1f,1f,1f,0f);
+			mainMenu[2].GetComponent<Image>().enabled = false;
+			mainMenu[3].GetComponent<SpriteRenderer>().color = new Color(1f,1f,1f,0f);
+			mainMenu[3].GetComponent<Image>().enabled = false;
+			mainMenu[4].GetComponent<SpriteRenderer>().color = new Color(1f,1f,1f,0f);
+			mainMenu[4].GetComponent<Image>().enabled = false;
 		}
 	}
 	
 	// On play disable all menus, and start the game
 	public void Play(){
-		for (int i = 0; i < mainMenu.Length; i++){
-			mainMenu[i].GetComponent<SpriteRenderer>().color = new Color(1f,1f,1f,0f);
-			mainMenu[i].GetComponent<Image>().enabled = false;
-		}
 		game.isPlaying = true;
 	}
 	

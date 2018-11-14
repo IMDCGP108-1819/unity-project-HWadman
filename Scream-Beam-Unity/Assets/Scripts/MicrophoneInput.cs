@@ -26,6 +26,7 @@ public class MicrophoneInput : MonoBehaviour {
 	
 	void Update(){
 		
+		//Make sure mic cant be turned on if there isnt a mic
 		if(Microphone.devices.Length > 0){
 			micOn = true;
 		}else{
