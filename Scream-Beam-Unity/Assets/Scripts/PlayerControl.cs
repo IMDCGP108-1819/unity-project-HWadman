@@ -6,14 +6,13 @@ public class PlayerControl : MonoBehaviour {
 
 	public float modifier;
 	public MicrophoneInput micInput;
-	public GameObject[] screenBounds;
 	
+	public GameObject[] screenBounds;
 	public bool scream;
 	public Menu menu;
 	public Game game;
 	
 	bool shoot;
-	
 	public GameObject[] beams;
 	public float attackSpeed;
 	
@@ -52,49 +51,56 @@ public class PlayerControl : MonoBehaviour {
 		}
 		//Touch shoot
 		foreach(Touch touch in Input.touches){
-			if(touch.position.x > Screen.width/2){
+			if(touch.position.x > Screen.width/2 && game.isPlaying){
 				if(shoot == false){
 					StartCoroutine(Shoot());
 				}
 			}
 		}
 		//Keyboard shoot
-		if(Input.GetKey(KeyCode.C)){
+		if(Input.GetKey(KeyCode.C) && game.isPlaying){
 			if(shoot == false){
 				StartCoroutine(Shoot());
 			}
 		}
 		
-		//display health and hearts based on player health
-		if(health < 3 || !displayHealth){
-			heartList[2].GetComponent<SpriteRenderer>().color = new Color(1f,1f,1f,0f);
+		//display health and hearts based on player health is the game is playing
+		if(game.isPlaying){
+			if(health < 3 || !displayHealth){
+				heartList[2].GetComponent<SpriteRenderer>().color = new Color(1f,1f,1f,0f);
+			}else{
+				heartList[2].GetComponent<SpriteRenderer>().color = new Color(1f,1f,1f,1f);
+			}
+			if(health < 2|| !displayHealth){
+				heartList[1].GetComponent<SpriteRenderer>().color = new Color(1f,1f,1f,0f);
+			}else{
+				heartList[1].GetComponent<SpriteRenderer>().color = new Color(1f,1f,1f,1f);
+			}
+			if(health < 1|| !displayHealth){
+				heartList[0].GetComponent<SpriteRenderer>().color = new Color(1f,1f,1f,0f);
+			}else{
+				heartList[0].GetComponent<SpriteRenderer>().color = new Color(1f,1f,1f,1f);
+			}
 		}else{
-			heartList[2].GetComponent<SpriteRenderer>().color = new Color(1f,1f,1f,1f);
-		}
-		if(health < 2|| !displayHealth){
-			heartList[1].GetComponent<SpriteRenderer>().color = new Color(1f,1f,1f,0f);
-		}else{
-			heartList[1].GetComponent<SpriteRenderer>().color = new Color(1f,1f,1f,1f);
-		}
-		if(health < 1|| !displayHealth){
 			heartList[0].GetComponent<SpriteRenderer>().color = new Color(1f,1f,1f,0f);
-		}else{
-			heartList[0].GetComponent<SpriteRenderer>().color = new Color(1f,1f,1f,1f);
+			heartList[1].GetComponent<SpriteRenderer>().color = new Color(1f,1f,1f,0f);
+			heartList[2].GetComponent<SpriteRenderer>().color = new Color(1f,1f,1f,0f);
 		}
 		
 		if(health <= 0){
 			game.EndGame();
 		}
 		
+		//change the players sprite based on if they are shooting or not
 		if(!game.isPlaying){
-			transform.GetChild(0).GetComponent<SpriteRenderer>().color = new Color(1f,1f,1f,0f);
+			transform.GetChild(0).GetComponent<SpriteRenderer>().color = new Color(1f,1f,1f,0f); //both invisible
 			transform.GetChild(1).GetComponent<SpriteRenderer>().color = new Color(1f,1f,1f,0f);
 		}else{
 			if(shoot){
-				transform.GetChild(0).GetComponent<SpriteRenderer>().color = new Color(1f,1f,1f,0f);
+				transform.GetChild(0).GetComponent<SpriteRenderer>().color = new Color(1f,1f,1f,0f); //firing sprite visible
 				transform.GetChild(1).GetComponent<SpriteRenderer>().color = new Color(1f,1f,1f,1f);
 			}else{
-				transform.GetChild(0).GetComponent<SpriteRenderer>().color = new Color(1f,1f,1f,1f);
+				transform.GetChild(0).GetComponent<SpriteRenderer>().color = new Color(1f,1f,1f,1f); //idle sprite visible
 				transform.GetChild(1).GetComponent<SpriteRenderer>().color = new Color(1f,1f,1f,0f);
 			}
 		}
@@ -125,7 +131,7 @@ public class PlayerControl : MonoBehaviour {
 		}
 	}
 	
-	IEnumerator Damage(int damage){
+	public IEnumerator Damage(int damage){
 		//Apply damage and show health
 		health -= damage;
 		displayHealth = true;

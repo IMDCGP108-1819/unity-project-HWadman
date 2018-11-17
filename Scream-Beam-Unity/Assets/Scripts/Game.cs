@@ -11,14 +11,41 @@ public class Game : MonoBehaviour {
     public GameObject[] enemy1;
     public GameObject[] enemy2;
     public GameObject[] enemy3;
+	GameObject[] beams;
+	
     GameObject enemyToSpawn;
     public float spawnRate;
+	
+	public float diffMod;
+	float diffUpTime;
+	float diffDelay = 1f;
+	
+	public float score;
 	
 	void Update () {
 		//if the player has started the game and enemies are not spawning, spawn enemies
 		if(isPlaying && !hasStarted){
 			StartCoroutine(SpawnEnemies());
 			hasStarted = true;
+		}
+		
+		//if playing then decrease the spawn rate every (diffDelay) by (diffMod) else reset spawn rate and diff mod
+		if(isPlaying){
+			if(Time.time > diffUpTime){
+				if(spawnRate > 0.5f){
+					diffMod += 0.02f;
+					diffUpTime += diffDelay;
+				}
+			}
+		}else{
+			spawnRate = 2;
+			diffMod = 0;
+		}
+		spawnRate = 2 - diffMod;
+		if(isPlaying){
+			score += Time.deltaTime;
+		}else{
+			
 		}
 	}
 	
@@ -58,9 +85,11 @@ public class Game : MonoBehaviour {
 	}
 	
 	public void EndGame(){
+		//reset all variables
 		isPlaying = false;
 		hasStarted = false;
 		playerS.health = 3;
+		//reset all enemy objects
 		foreach (GameObject gO in enemy1){
             if (gO.GetComponent<Enemy>().enabled == true){
                 gO.GetComponent<Enemy>().Reset();
@@ -74,6 +103,12 @@ public class Game : MonoBehaviour {
 		foreach (GameObject gO in enemy3){
             if (gO.GetComponent<Enemy>().enabled == true){
                 gO.GetComponent<Enemy>().Reset();
+            }
+        }
+		//reset all beams
+		foreach (GameObject gO in playerS.beams){
+            if (gO.GetComponent<Beam>().enabled == true){
+                gO.GetComponent<Beam>().Reset();
             }
         }
 	}

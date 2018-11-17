@@ -11,8 +11,8 @@ public class Beam : MonoBehaviour {
 		//Move right
 		transform.position += new Vector3(1,0,0) * speed * Time.deltaTime;
 		//If past right boundary disable this script
-		if(transform.position.x > right.transform.position.x + 2.5f){
-			gameObject.GetComponent<Beam>().enabled = false;
+		if(transform.position.x > right.transform.position.x + 4f){
+			Reset();
 		}
 	}
 	
@@ -20,8 +20,13 @@ public class Beam : MonoBehaviour {
 		if(other.tag == "Enemy"){
 			//Send the hit message to enemy hit
 			other.GetComponent<Enemy>().StartCoroutine("hit");
-			//reset beam
-			transform.position = new Vector3(right.transform.position.x + 2.5f,0,0);
+			Reset();
 		}
+	}
+	
+	public void Reset(){
+		//move off-screen and disable script
+		transform.position = new Vector3(right.transform.position.x + 4f,0,0);
+		gameObject.GetComponent<Beam>().enabled = false;
 	}
 }
