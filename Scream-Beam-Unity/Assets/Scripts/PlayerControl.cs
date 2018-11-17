@@ -19,6 +19,9 @@ public class PlayerControl : MonoBehaviour {
 	public int health;
 	public GameObject[] heartList;
 	bool displayHealth;
+	
+	public AudioSource audio;
+	public AudioClip[] sounds;
 
 	void Update () {  
 		scream = menu.screamOn;
@@ -117,6 +120,10 @@ public class PlayerControl : MonoBehaviour {
 					break;
 				}
 			}
+			//play shoot sound
+			audio.clip = sounds[0];
+			audio.volume = 1f;
+			audio.Play();
 			yield return new WaitForSeconds(attackSpeed);
 			shoot = false;
 		}
@@ -132,7 +139,10 @@ public class PlayerControl : MonoBehaviour {
 	}
 	
 	public IEnumerator Damage(int damage){
-		//Apply damage and show health
+		//Apply damage, show health and play sound
+		audio.clip = sounds[1];
+		audio.volume = 1f;
+		audio.Play();
 		health -= damage;
 		displayHealth = true;
 		yield return new WaitForSeconds(2f);

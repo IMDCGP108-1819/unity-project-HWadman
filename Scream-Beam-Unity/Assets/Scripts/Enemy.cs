@@ -18,6 +18,7 @@ public class Enemy : MonoBehaviour {
 	public GameObject[] bullets;
 	
 	public Game game;
+	public PlayerControl player;
 	
 	void OnEnable()
     {
@@ -34,6 +35,9 @@ public class Enemy : MonoBehaviour {
 		}
 		if(health <= 0){
 			game.score += 15;
+			player.audio.clip = player.sounds[2];
+			player.audio.volume = 0.08f;
+			player.audio.Play();
 			GetCloud();
 			Reset();
 		}

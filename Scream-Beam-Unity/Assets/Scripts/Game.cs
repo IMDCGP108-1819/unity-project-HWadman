@@ -12,6 +12,7 @@ public class Game : MonoBehaviour {
     public GameObject[] enemy2;
     public GameObject[] enemy3;
 	GameObject[] beams;
+	public GameObject[] bullets;
 	
     GameObject enemyToSpawn;
     public float spawnRate;
@@ -109,6 +110,12 @@ public class Game : MonoBehaviour {
 		foreach (GameObject gO in playerS.beams){
             if (gO.GetComponent<Beam>().enabled == true){
                 gO.GetComponent<Beam>().Reset();
+            }
+        }
+		//reset all bullets
+		foreach (GameObject gO in bullets){
+            if (gO.GetComponent<Bullet>().enabled == true){
+                gO.GetComponent<Bullet>().Reset();
             }
         }
 	}
